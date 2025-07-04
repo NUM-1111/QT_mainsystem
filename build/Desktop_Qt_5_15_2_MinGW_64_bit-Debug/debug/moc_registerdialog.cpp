@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_registerDialog_t {
     QByteArrayData data[7];
-    char stringdata0[162];
+    char stringdata0[160];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,19 +33,19 @@ struct qt_meta_stringdata_registerDialog_t {
 static const qt_meta_stringdata_registerDialog_t qt_meta_stringdata_registerDialog = {
     {
 QT_MOC_LITERAL(0, 0, 14), // "registerDialog"
-QT_MOC_LITERAL(1, 15, 22), // "on_registerBtn_clicked"
-QT_MOC_LITERAL(2, 38, 0), // ""
-QT_MOC_LITERAL(3, 39, 25), // "on_backtologinBtn_clicked"
-QT_MOC_LITERAL(4, 65, 30), // "on_usernameinput_returnPressed"
-QT_MOC_LITERAL(5, 96, 30), // "on_passwordinput_returnPressed"
-QT_MOC_LITERAL(6, 127, 34) // "on_passwordsureinput_returnPr..."
+QT_MOC_LITERAL(1, 15, 24), // "handleRegisterBtnClicked"
+QT_MOC_LITERAL(2, 40, 0), // ""
+QT_MOC_LITERAL(3, 41, 27), // "handleBackToLoginBtnClicked"
+QT_MOC_LITERAL(4, 69, 27), // "handleUsernameReturnPressed"
+QT_MOC_LITERAL(5, 97, 27), // "handlePasswordReturnPressed"
+QT_MOC_LITERAL(6, 125, 34) // "handlePasswordConfirmReturnPr..."
 
     },
-    "registerDialog\0on_registerBtn_clicked\0"
-    "\0on_backtologinBtn_clicked\0"
-    "on_usernameinput_returnPressed\0"
-    "on_passwordinput_returnPressed\0"
-    "on_passwordsureinput_returnPressed"
+    "registerDialog\0handleRegisterBtnClicked\0"
+    "\0handleBackToLoginBtnClicked\0"
+    "handleUsernameReturnPressed\0"
+    "handlePasswordReturnPressed\0"
+    "handlePasswordConfirmReturnPressed"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,11 +85,11 @@ void registerDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         auto *_t = static_cast<registerDialog *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_registerBtn_clicked(); break;
-        case 1: _t->on_backtologinBtn_clicked(); break;
-        case 2: _t->on_usernameinput_returnPressed(); break;
-        case 3: _t->on_passwordinput_returnPressed(); break;
-        case 4: _t->on_passwordsureinput_returnPressed(); break;
+        case 0: _t->handleRegisterBtnClicked(); break;
+        case 1: _t->handleBackToLoginBtnClicked(); break;
+        case 2: _t->handleUsernameReturnPressed(); break;
+        case 3: _t->handlePasswordReturnPressed(); break;
+        case 4: _t->handlePasswordConfirmReturnPressed(); break;
         default: ;
         }
     }

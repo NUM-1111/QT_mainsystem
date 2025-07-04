@@ -21,10 +21,10 @@ loginDialog::loginDialog(QWidget *parent)
     ui->passwordinput->setPlaceholderText("请输入密码");
     
     // 连接信号和槽
-    connect(ui->loginBtn, &QPushButton::clicked, this, &loginDialog::on_loginBtn_clicked);
-    connect(ui->registerBtn, &QPushButton::clicked, this, &loginDialog::on_registerBtn_clicked);
-    connect(ui->usernameinput, &QLineEdit::returnPressed, this, &loginDialog::on_usernameinput_returnPressed);
-    connect(ui->passwordinput, &QLineEdit::returnPressed, this, &loginDialog::on_passwordinput_returnPressed);
+    connect(ui->loginBtn, &QPushButton::clicked, this, &loginDialog::handleLoginBtnClicked);
+    connect(ui->registerBtn, &QPushButton::clicked, this, &loginDialog::handleRegisterBtnClicked);
+    connect(ui->usernameinput, &QLineEdit::returnPressed, this, &loginDialog::handleUsernameReturnPressed);
+    connect(ui->passwordinput, &QLineEdit::returnPressed, this, &loginDialog::handlePasswordReturnPressed);
     
     // 设置默认焦点到用户名输入框
     ui->usernameinput->setFocus();
@@ -37,7 +37,7 @@ loginDialog::~loginDialog()
     delete ui;
 }
 
-void loginDialog::on_loginBtn_clicked()
+void loginDialog::handleLoginBtnClicked()
 {
     qDebug() << "登录按钮被点击";
     if (performLogin()) {
@@ -45,28 +45,33 @@ void loginDialog::on_loginBtn_clicked()
     }
 }
 
-void loginDialog::on_registerBtn_clicked()
+void loginDialog::handleRegisterBtnClicked()
 {
-    qDebug() << "注册按钮被点击";
+    qDebug() << "=== 登录对话框：注册按钮被点击 ===";
     
     // 创建并显示注册对话框
+    qDebug() << "创建注册对话框...";
     registerDialog regDialog(this);
-    if (regDialog.exec() == QDialog::Accepted) {
-        // 注册成功，清空密码输入框，保持用户名
-        ui->passwordinput->clear();
-        ui->passwordinput->setFocus();
-        qDebug() << "用户注册成功，返回登录界面";
-    }
+    qDebug() << "显示注册对话框...";
+    
+    // 显示注册对话框，不管结果如何都继续
+    regDialog.exec();
+    qDebug() << "注册对话框已关闭";
+    
+    // 注册对话框关闭后，清空密码输入框，保持用户名
+    ui->passwordinput->clear();
+    ui->passwordinput->setFocus();
+    qDebug() << "返回登录界面，密码框已清空";
 }
 
-void loginDialog::on_usernameinput_returnPressed()
+void loginDialog::handleUsernameReturnPressed()
 {
     qDebug() << "用户名输入框回车";
     // 回车时焦点移到密码输入框
     ui->passwordinput->setFocus();
 }
 
-void loginDialog::on_passwordinput_returnPressed()
+void loginDialog::handlePasswordReturnPressed()
 {
     qDebug() << "密码输入框回车";
     // 回车时执行登录

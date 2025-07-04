@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_loginDialog_t {
     QByteArrayData data[6];
-    char stringdata0[118];
+    char stringdata0[116];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,17 +33,17 @@ struct qt_meta_stringdata_loginDialog_t {
 static const qt_meta_stringdata_loginDialog_t qt_meta_stringdata_loginDialog = {
     {
 QT_MOC_LITERAL(0, 0, 11), // "loginDialog"
-QT_MOC_LITERAL(1, 12, 19), // "on_loginBtn_clicked"
-QT_MOC_LITERAL(2, 32, 0), // ""
-QT_MOC_LITERAL(3, 33, 22), // "on_registerBtn_clicked"
-QT_MOC_LITERAL(4, 56, 30), // "on_usernameinput_returnPressed"
-QT_MOC_LITERAL(5, 87, 30) // "on_passwordinput_returnPressed"
+QT_MOC_LITERAL(1, 12, 21), // "handleLoginBtnClicked"
+QT_MOC_LITERAL(2, 34, 0), // ""
+QT_MOC_LITERAL(3, 35, 24), // "handleRegisterBtnClicked"
+QT_MOC_LITERAL(4, 60, 27), // "handleUsernameReturnPressed"
+QT_MOC_LITERAL(5, 88, 27) // "handlePasswordReturnPressed"
 
     },
-    "loginDialog\0on_loginBtn_clicked\0\0"
-    "on_registerBtn_clicked\0"
-    "on_usernameinput_returnPressed\0"
-    "on_passwordinput_returnPressed"
+    "loginDialog\0handleLoginBtnClicked\0\0"
+    "handleRegisterBtnClicked\0"
+    "handleUsernameReturnPressed\0"
+    "handlePasswordReturnPressed"
 };
 #undef QT_MOC_LITERAL
 
@@ -81,10 +81,10 @@ void loginDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         auto *_t = static_cast<loginDialog *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_loginBtn_clicked(); break;
-        case 1: _t->on_registerBtn_clicked(); break;
-        case 2: _t->on_usernameinput_returnPressed(); break;
-        case 3: _t->on_passwordinput_returnPressed(); break;
+        case 0: _t->handleLoginBtnClicked(); break;
+        case 1: _t->handleRegisterBtnClicked(); break;
+        case 2: _t->handleUsernameReturnPressed(); break;
+        case 3: _t->handlePasswordReturnPressed(); break;
         default: ;
         }
     }

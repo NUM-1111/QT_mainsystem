@@ -23,11 +23,11 @@ registerDialog::registerDialog(QWidget *parent)
     ui->passwordsureinput->setPlaceholderText("请再次输入密码");
     
     // 连接信号和槽
-    connect(ui->registerBtn, &QPushButton::clicked, this, &registerDialog::on_registerBtn_clicked);
-    connect(ui->backtologinBtn, &QPushButton::clicked, this, &registerDialog::on_backtologinBtn_clicked);
-    connect(ui->usernameinput, &QLineEdit::returnPressed, this, &registerDialog::on_usernameinput_returnPressed);
-    connect(ui->passwordinput, &QLineEdit::returnPressed, this, &registerDialog::on_passwordinput_returnPressed);
-    connect(ui->passwordsureinput, &QLineEdit::returnPressed, this, &registerDialog::on_passwordsureinput_returnPressed);
+    connect(ui->registerBtn, &QPushButton::clicked, this, &registerDialog::handleRegisterBtnClicked);
+    connect(ui->backtologinBtn, &QPushButton::clicked, this, &registerDialog::handleBackToLoginBtnClicked);
+    connect(ui->usernameinput, &QLineEdit::returnPressed, this, &registerDialog::handleUsernameReturnPressed);
+    connect(ui->passwordinput, &QLineEdit::returnPressed, this, &registerDialog::handlePasswordReturnPressed);
+    connect(ui->passwordsureinput, &QLineEdit::returnPressed, this, &registerDialog::handlePasswordConfirmReturnPressed);
     
     // 设置默认焦点到用户名输入框
     ui->usernameinput->setFocus();
@@ -40,40 +40,54 @@ registerDialog::~registerDialog()
     delete ui;
 }
 
-void registerDialog::on_registerBtn_clicked()
+void registerDialog::handleRegisterBtnClicked()
 {
-    qDebug() << "注册按钮被点击";
-    if (performRegistration()) {
-        accept();  // 注册成功，关闭对话框
+    qDebug() << "=== 注册按钮被点击 ===";
+    
+    // 防止重复点击
+    ui->registerBtn->setEnabled(false);
+    ui->backtologinBtn->setEnabled(false);
+    
+    bool success = performRegistration();
+    
+    if (success) {
+        qDebug() << "注册成功，立即关闭对话框";
+        // 注册成功，立即关闭对话框，不执行任何后续操作
+        close();
+    } else {
+        qDebug() << "注册失败，保持对话框打开";
+        // 重新启用按钮
+        ui->registerBtn->setEnabled(true);
+        ui->backtologinBtn->setEnabled(true);
     }
 }
 
-void registerDialog::on_backtologinBtn_clicked()
+void registerDialog::handleBackToLoginBtnClicked()
 {
     qDebug() << "返回登录按钮被点击";
     reject();  // 返回登录界面
 }
 
-void registerDialog::on_usernameinput_returnPressed()
+void registerDialog::handleUsernameReturnPressed()
 {
     qDebug() << "用户名输入框回车";
     // 回车时焦点移到密码输入框
     ui->passwordinput->setFocus();
 }
 
-void registerDialog::on_passwordinput_returnPressed()
+void registerDialog::handlePasswordReturnPressed()
 {
     qDebug() << "密码输入框回车";
     // 回车时焦点移到确认密码输入框
     ui->passwordsureinput->setFocus();
 }
 
-void registerDialog::on_passwordsureinput_returnPressed()
+void registerDialog::handlePasswordConfirmReturnPressed()
 {
     qDebug() << "确认密码输入框回车";
     // 回车时执行注册
     if (performRegistration()) {
-        accept();
+        close();
     }
 }
 
@@ -141,7 +155,7 @@ bool registerDialog::isUsernameAvailable(const QString &username)
 {
     // 检查数据库连接
     if (!m_dbManager.isConnected()) {
-        QMessageBox::critical(this, "系统错误", "数据库连接失败，请检查系统配置");
+        // 不在这里显示错误消息，让调用者处理
         return false;
     }
     
@@ -151,8 +165,11 @@ bool registerDialog::isUsernameAvailable(const QString &username)
 
 bool registerDialog::performRegistration()
 {
+    qDebug() << "=== 开始执行注册流程 ===";
+    
     // 验证输入
     if (!validateInput()) {
+        qDebug() << "输入验证失败";
         return false;
     }
     
@@ -169,6 +186,7 @@ bool registerDialog::performRegistration()
     }
     
     // 检查用户名是否可用
+    qDebug() << "检查用户名是否可用...";
     if (!isUsernameAvailable(username)) {
         QMessageBox::warning(this, "注册失败", "用户名已存在，请选择其他用户名");
         ui->usernameinput->setFocus();
@@ -176,13 +194,19 @@ bool registerDialog::performRegistration()
         qDebug() << "用户名" << username << "已存在";
         return false;
     }
+    qDebug() << "用户名可用";
     
     // 执行注册
-    if (m_dbManager.registerUser(username, password)) {
+    qDebug() << "开始执行数据库注册...";
+    bool registerResult = m_dbManager.registerUser(username, password);
+    
+    if (registerResult) {
+        qDebug() << "数据库注册成功";
         QMessageBox::information(this, "注册成功", QString("用户 %1 注册成功！\n请返回登录界面进行登录。").arg(username));
-        qDebug() << "用户" << username << "注册成功";
+        qDebug() << "用户" << username << "注册成功，准备返回true";
         return true;
     } else {
+        qDebug() << "数据库注册失败";
         QMessageBox::critical(this, "注册失败", "注册过程中发生错误，请重试");
         qDebug() << "用户" << username << "注册失败";
         return false;

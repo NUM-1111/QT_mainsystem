@@ -21,27 +21,27 @@ private slots:
     /**
      * @brief 注册按钮点击事件
      */
-    void on_registerBtn_clicked();
+    void handleRegisterBtnClicked();
     
     /**
      * @brief 返回登录按钮点击事件
      */
-    void on_backtologinBtn_clicked();
+    void handleBackToLoginBtnClicked();
     
     /**
      * @brief 用户名输入框回车事件
      */
-    void on_usernameinput_returnPressed();
+    void handleUsernameReturnPressed();
     
     /**
      * @brief 密码输入框回车事件
      */
-    void on_passwordinput_returnPressed();
+    void handlePasswordReturnPressed();
     
     /**
      * @brief 确认密码输入框回车事件
      */
-    void on_passwordsureinput_returnPressed();
+    void handlePasswordConfirmReturnPressed();
 
 private:
     /**
