@@ -35,7 +35,6 @@ public:
     QLabel *titleLabel;
     QLabel *connectionStatusLabel;
     QPushButton *startSubsystem1Btn;
-    QPushButton *connectBtn;
     QPushButton *disconnectBtn;
     QPushButton *system1Btn;
     QPushButton *statusBtn;
@@ -88,11 +87,6 @@ public:
         startSubsystem1Btn->setObjectName(QString::fromUtf8("startSubsystem1Btn"));
 
         leftLayout->addWidget(startSubsystem1Btn);
-
-        connectBtn = new QPushButton(leftPanel);
-        connectBtn->setObjectName(QString::fromUtf8("connectBtn"));
-
-        leftLayout->addWidget(connectBtn);
 
         disconnectBtn = new QPushButton(leftPanel);
         disconnectBtn->setObjectName(QString::fromUtf8("disconnectBtn"));
@@ -201,8 +195,7 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "\344\270\273\347\263\273\347\273\237 - \345\210\206\347\263\273\347\273\237\347\256\241\347\220\206", nullptr));
         titleLabel->setText(QCoreApplication::translate("MainWindow", "\345\210\206\347\263\273\347\273\237\346\216\247\345\210\266", nullptr));
         connectionStatusLabel->setText(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245\347\212\266\346\200\201\357\274\232\346\234\252\350\277\236\346\216\245", nullptr));
-        startSubsystem1Btn->setText(QCoreApplication::translate("MainWindow", "\345\220\257\345\212\250\345\210\206\347\263\273\347\273\2371\347\250\213\345\272\217", nullptr));
-        connectBtn->setText(QCoreApplication::translate("MainWindow", "\350\277\236\346\216\245\345\210\206\347\263\273\347\273\2371", nullptr));
+        startSubsystem1Btn->setText(QCoreApplication::translate("MainWindow", "\345\220\257\345\212\250\345\210\206\347\263\273\347\273\2371", nullptr));
         disconnectBtn->setText(QCoreApplication::translate("MainWindow", "\346\226\255\345\274\200\350\277\236\346\216\245", nullptr));
         system1Btn->setText(QCoreApplication::translate("MainWindow", "\345\220\257\345\212\250\345\210\206\347\263\273\347\273\2371\347\225\214\351\235\242", nullptr));
         statusBtn->setText(QCoreApplication::translate("MainWindow", "\346\237\245\350\257\242\345\210\206\347\263\273\347\273\237\347\212\266\346\200\201", nullptr));

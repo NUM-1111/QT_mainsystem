@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_subsystem1Process = new QProcess(this);
     
     // 连接按钮信号
-    connect(ui->connectBtn, &QPushButton::clicked, this, &MainWindow::handleConnectBtnClicked);
     connect(ui->startSubsystem1Btn, &QPushButton::clicked, this, &MainWindow::handleStartSubsystem1BtnClicked);
     connect(ui->disconnectBtn, &QPushButton::clicked, this, &MainWindow::handleDisconnectBtnClicked);
     connect(ui->system1Btn, &QPushButton::clicked, this, &MainWindow::handleSystem1BtnClicked);
@@ -55,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     // 添加启动日志
     addLogMessage("主系统启动完成");
-    addLogMessage("请点击'启动分系统1程序'按钮来启动分系统");
+    addLogMessage("点击'启动分系统1'按钮来启动并连接分系统");
     
     // 注释掉自动启动，改为手动启动
     // startSubsystem1();
@@ -175,23 +174,12 @@ void MainWindow::updateButtonStates()
 {
     bool isConnected = m_subsystemClient->isConnected();
     
-    ui->connectBtn->setEnabled(!isConnected);
-    ui->disconnectBtn->setEnabled(isConnected);
+
     ui->system1Btn->setEnabled(isConnected);
     ui->statusBtn->setEnabled(isConnected);
     ui->helpBtn->setEnabled(isConnected);
     ui->sendCommandBtn->setEnabled(isConnected);
     ui->commandInput->setEnabled(isConnected);
-}
-
-void MainWindow::handleConnectBtnClicked()
-{
-    addLogMessage("正在连接分系统1...");
-    
-    if (!m_subsystemClient->connectToSubsystem("localhost", 8080)) {
-        addLogMessage("❌ 连接请求失败");
-        QMessageBox::warning(this, "连接错误", "无法发起连接请求");
-    }
 }
 
 void MainWindow::handleStartSubsystem1BtnClicked()
@@ -289,7 +277,10 @@ void MainWindow::handleSubsystem1Started()
     // 等待2秒后自动连接
     QTimer::singleShot(2000, [this]() {
         addLogMessage("自动连接分系统1...");
-        handleConnectBtnClicked();
+        if (!m_subsystemClient->connectToSubsystem("localhost", 8080)) {
+            addLogMessage("❌ 连接请求失败");
+            QMessageBox::warning(this, "连接错误", "无法发起连接请求");
+        }
     });
 }
 

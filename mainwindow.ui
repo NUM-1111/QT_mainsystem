@@ -54,14 +54,7 @@
        <item>
         <widget class="QPushButton" name="startSubsystem1Btn">
          <property name="text">
-          <string>启动分系统1程序</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="connectBtn">
-         <property name="text">
-          <string>连接分系统1</string>
+          <string>启动分系统1</string>
          </property>
         </widget>
        </item>

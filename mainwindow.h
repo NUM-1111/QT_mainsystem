@@ -48,11 +48,6 @@ public:
 
 private slots:
     /**
-     * @brief 连接按钮点击事件
-     */
-    void handleConnectBtnClicked();
-
-    /**
      * @brief 启动分系统1程序按钮点击事件
      */
     void handleStartSubsystem1BtnClicked();
