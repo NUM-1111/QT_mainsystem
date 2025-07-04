@@ -21,7 +21,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_LoginDialog
+class Ui_loginDialog
 {
 public:
     QWidget *verticalLayoutWidget;
@@ -36,12 +36,12 @@ public:
     QPushButton *loginBtn;
     QPushButton *registerBtn;
 
-    void setupUi(QDialog *LoginDialog)
+    void setupUi(QDialog *loginDialog)
     {
-        if (LoginDialog->objectName().isEmpty())
-            LoginDialog->setObjectName(QString::fromUtf8("LoginDialog"));
-        LoginDialog->resize(400, 300);
-        verticalLayoutWidget = new QWidget(LoginDialog);
+        if (loginDialog->objectName().isEmpty())
+            loginDialog->setObjectName(QString::fromUtf8("loginDialog"));
+        loginDialog->resize(400, 300);
+        verticalLayoutWidget = new QWidget(loginDialog);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(80, 70, 241, 141));
         loginwidget = new QVBoxLayout(verticalLayoutWidget);
@@ -93,24 +93,24 @@ public:
         loginwidget->addLayout(btnLayout);
 
 
-        retranslateUi(LoginDialog);
+        retranslateUi(loginDialog);
 
-        QMetaObject::connectSlotsByName(LoginDialog);
+        QMetaObject::connectSlotsByName(loginDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *LoginDialog)
+    void retranslateUi(QDialog *loginDialog)
     {
-        LoginDialog->setWindowTitle(QCoreApplication::translate("LoginDialog", "Dialog", nullptr));
-        username->setText(QCoreApplication::translate("LoginDialog", "\347\224\250\346\210\267\345\220\215", nullptr));
-        password->setText(QCoreApplication::translate("LoginDialog", "\345\257\206\347\240\201    ", nullptr));
-        loginBtn->setText(QCoreApplication::translate("LoginDialog", "\347\231\273\345\275\225", nullptr));
-        registerBtn->setText(QCoreApplication::translate("LoginDialog", "\346\263\250\345\206\214", nullptr));
+        loginDialog->setWindowTitle(QCoreApplication::translate("loginDialog", "Dialog", nullptr));
+        username->setText(QCoreApplication::translate("loginDialog", "\347\224\250\346\210\267\345\220\215", nullptr));
+        password->setText(QCoreApplication::translate("loginDialog", "\345\257\206\347\240\201    ", nullptr));
+        loginBtn->setText(QCoreApplication::translate("loginDialog", "\347\231\273\345\275\225", nullptr));
+        registerBtn->setText(QCoreApplication::translate("loginDialog", "\346\263\250\345\206\214", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class LoginDialog: public Ui_LoginDialog {};
+    class loginDialog: public Ui_loginDialog {};
 } // namespace Ui
 
 QT_END_NAMESPACE

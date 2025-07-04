@@ -21,7 +21,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Ui_RegisterDialog
+class Ui_registerDialog
 {
 public:
     QWidget *verticalLayoutWidget;
@@ -39,12 +39,12 @@ public:
     QPushButton *registerBtn;
     QPushButton *backtologinBtn;
 
-    void setupUi(QDialog *RegisterDialog)
+    void setupUi(QDialog *registerDialog)
     {
-        if (RegisterDialog->objectName().isEmpty())
-            RegisterDialog->setObjectName(QString::fromUtf8("RegisterDialog"));
-        RegisterDialog->resize(400, 300);
-        verticalLayoutWidget = new QWidget(RegisterDialog);
+        if (registerDialog->objectName().isEmpty())
+            registerDialog->setObjectName(QString::fromUtf8("registerDialog"));
+        registerDialog->resize(400, 300);
+        verticalLayoutWidget = new QWidget(registerDialog);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
         verticalLayoutWidget->setGeometry(QRect(80, 60, 221, 161));
         registerwidget = new QVBoxLayout(verticalLayoutWidget);
@@ -111,25 +111,25 @@ public:
         registerwidget->addLayout(btnlayout);
 
 
-        retranslateUi(RegisterDialog);
+        retranslateUi(registerDialog);
 
-        QMetaObject::connectSlotsByName(RegisterDialog);
+        QMetaObject::connectSlotsByName(registerDialog);
     } // setupUi
 
-    void retranslateUi(QDialog *RegisterDialog)
+    void retranslateUi(QDialog *registerDialog)
     {
-        RegisterDialog->setWindowTitle(QCoreApplication::translate("RegisterDialog", "Dialog", nullptr));
-        username->setText(QCoreApplication::translate("RegisterDialog", "\347\224\250\346\210\267\345\220\215", nullptr));
-        password->setText(QCoreApplication::translate("RegisterDialog", "\345\257\206\347\240\201    ", nullptr));
-        passwordsure->setText(QCoreApplication::translate("RegisterDialog", "\347\241\256\350\256\244\345\257\206\347\240\201", nullptr));
-        registerBtn->setText(QCoreApplication::translate("RegisterDialog", "\346\263\250\345\206\214", nullptr));
-        backtologinBtn->setText(QCoreApplication::translate("RegisterDialog", "\350\277\224\345\233\236\347\231\273\345\275\225", nullptr));
+        registerDialog->setWindowTitle(QCoreApplication::translate("registerDialog", "Dialog", nullptr));
+        username->setText(QCoreApplication::translate("registerDialog", "\347\224\250\346\210\267\345\220\215", nullptr));
+        password->setText(QCoreApplication::translate("registerDialog", "\345\257\206\347\240\201    ", nullptr));
+        passwordsure->setText(QCoreApplication::translate("registerDialog", "\347\241\256\350\256\244\345\257\206\347\240\201", nullptr));
+        registerBtn->setText(QCoreApplication::translate("registerDialog", "\346\263\250\345\206\214", nullptr));
+        backtologinBtn->setText(QCoreApplication::translate("registerDialog", "\350\277\224\345\233\236\347\231\273\345\275\225", nullptr));
     } // retranslateUi
 
 };
 
 namespace Ui {
-    class RegisterDialog: public Ui_RegisterDialog {};
+    class registerDialog: public Ui_registerDialog {};
 } // namespace Ui
 
 QT_END_NAMESPACE

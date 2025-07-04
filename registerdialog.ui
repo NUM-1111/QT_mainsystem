@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>RegisterDialog</class>
- <widget class="QDialog" name="RegisterDialog">
+ <class>registerDialog</class>
+ <widget class="QDialog" name="registerDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
