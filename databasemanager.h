@@ -71,6 +71,12 @@ public:
     bool isUserExists(const QString &username);
     
     /**
+     * @brief 创建群组表
+     * @return 创建是否成功
+     */
+    bool createGroupsTable();
+    
+    /**
      * @brief 获取数据库连接对象
      * @return QSqlDatabase对象
      */

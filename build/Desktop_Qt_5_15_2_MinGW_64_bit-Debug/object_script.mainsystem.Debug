@@ -1,9 +1,13 @@
+debug/adminpanel.o
 debug/databasemanager.o
+debug/groupmanager.o
 debug/logindialog.o
 debug/main.o
 debug/mainwindow.o
 debug/registerdialog.o
 debug/subsystemclient.o
+debug/usermanager.o
+debug/moc_adminpanel.o
 debug/moc_logindialog.o
 debug/moc_mainwindow.o
 debug/moc_registerdialog.o

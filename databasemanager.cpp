@@ -72,8 +72,26 @@ bool DatabaseManager::initDatabase(const QString &dbPath)
         qDebug() << "Failed to create user table";
         return false;
     }
+    // 创建权限组表
+    if (!createGroupsTable()) {
+        qDebug() << "Failed to create groups table";
+        return false;
+    }
     
     return true;
+
+    // 自动化检查表结构（调试用，确认无误后可移除）
+    QSqlQuery checkQuery(m_db);
+    qDebug() << "[users] table structure:";
+    checkQuery.exec("PRAGMA table_info(users)");
+    while (checkQuery.next()) {
+        qDebug() << checkQuery.value(1).toString() << checkQuery.value(2).toString();
+    }
+    qDebug() << "[groups] table structure:";
+    checkQuery.exec("PRAGMA table_info(groups)");
+    while (checkQuery.next()) {
+        qDebug() << checkQuery.value(1).toString() << checkQuery.value(2).toString();
+    }
 }
 
 /**
@@ -120,8 +138,14 @@ bool DatabaseManager::createUserTable()
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
         "username TEXT UNIQUE NOT NULL, "
         "password TEXT NOT NULL, "
+        "`group` INTEGER NOT NULL DEFAULT -1, "
+        "isRightToSystem1 INTEGER DEFAULT 0, "
+        "isRightToSystem2 INTEGER DEFAULT 0, "
+        "isRightToSystem3 INTEGER DEFAULT 0, "
+        "isRightToSystem4 INTEGER DEFAULT 0, "
+        "isRightToSystem5 INTEGER DEFAULT 0, "
         "created_time DATETIME DEFAULT CURRENT_TIMESTAMP"
-        ")";
+        ");";
     
     if (!query.exec(createTableSQL)) {
         qDebug() << "Failed to create user table:" << query.lastError().text();
@@ -129,6 +153,40 @@ bool DatabaseManager::createUserTable()
     }
     
     qDebug() << "User table created successfully";
+    return true;
+}
+
+/**
+ * @brief 创建权限组表
+ * @return 创建是否成功
+ * 
+ * 表结构：
+ * - group_id: 主键
+ * - group_name: 组名
+ * - isRightToSystem1~5: 权限
+ */
+bool DatabaseManager::createGroupsTable()
+{
+    if (!isConnected()) {
+        qDebug() << "Database not connected";
+        return false;
+    }
+    QSqlQuery query(m_db);
+    QString createTableSQL =
+        "CREATE TABLE IF NOT EXISTS groups ("
+        "group_id INTEGER PRIMARY KEY, "
+        "group_name TEXT NOT NULL, "
+        "isRightToSystem1 INTEGER DEFAULT 0, "
+        "isRightToSystem2 INTEGER DEFAULT 0, "
+        "isRightToSystem3 INTEGER DEFAULT 0, "
+        "isRightToSystem4 INTEGER DEFAULT 0, "
+        "isRightToSystem5 INTEGER DEFAULT 0"
+        ");";
+    if (!query.exec(createTableSQL)) {
+        qDebug() << "Failed to create groups table:" << query.lastError().text();
+        return false;
+    }
+    qDebug() << "Groups table created successfully";
     return true;
 }
 
