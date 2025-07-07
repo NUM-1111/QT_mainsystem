@@ -48,29 +48,6 @@ public:
     bool createUserTable();
     
     /**
-     * @brief 注册新用户
-     * @param username 用户名
-     * @param password 密码（明文，内部会进行加密存储）
-     * @return 注册是否成功
-     */
-    bool registerUser(const QString &username, const QString &password);
-    
-    /**
-     * @brief 用户登录验证
-     * @param username 用户名
-     * @param password 密码（明文，内部会与加密存储的密码比较）
-     * @return 登录是否成功
-     */
-    bool loginUser(const QString &username, const QString &password);
-    
-    /**
-     * @brief 检查用户是否存在
-     * @param username 用户名
-     * @return 用户是否存在
-     */
-    bool isUserExists(const QString &username);
-    
-    /**
      * @brief 创建群组表
      * @return 创建是否成功
      */

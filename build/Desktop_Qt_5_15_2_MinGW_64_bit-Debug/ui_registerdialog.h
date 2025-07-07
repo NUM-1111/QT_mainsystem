@@ -35,6 +35,9 @@ public:
     QHBoxLayout *passwordsureLaout;
     QLabel *passwordsure;
     QLineEdit *passwordsureinput;
+    QHBoxLayout *inviteCodeLayout;
+    QLabel *inviteCodeLabel;
+    QLineEdit *inviteCodeInput;
     QHBoxLayout *btnlayout;
     QPushButton *registerBtn;
     QPushButton *backtologinBtn;
@@ -46,7 +49,7 @@ public:
         registerDialog->resize(400, 300);
         verticalLayoutWidget = new QWidget(registerDialog);
         verticalLayoutWidget->setObjectName(QString::fromUtf8("verticalLayoutWidget"));
-        verticalLayoutWidget->setGeometry(QRect(80, 60, 221, 161));
+        verticalLayoutWidget->setGeometry(QRect(80, 60, 221, 191));
         registerwidget = new QVBoxLayout(verticalLayoutWidget);
         registerwidget->setObjectName(QString::fromUtf8("registerwidget"));
         registerwidget->setContentsMargins(0, 0, 0, 0);
@@ -95,6 +98,21 @@ public:
 
         registerwidget->addLayout(passwordsureLaout);
 
+        inviteCodeLayout = new QHBoxLayout();
+        inviteCodeLayout->setObjectName(QString::fromUtf8("inviteCodeLayout"));
+        inviteCodeLabel = new QLabel(verticalLayoutWidget);
+        inviteCodeLabel->setObjectName(QString::fromUtf8("inviteCodeLabel"));
+
+        inviteCodeLayout->addWidget(inviteCodeLabel);
+
+        inviteCodeInput = new QLineEdit(verticalLayoutWidget);
+        inviteCodeInput->setObjectName(QString::fromUtf8("inviteCodeInput"));
+
+        inviteCodeLayout->addWidget(inviteCodeInput);
+
+
+        registerwidget->addLayout(inviteCodeLayout);
+
         btnlayout = new QHBoxLayout();
         btnlayout->setObjectName(QString::fromUtf8("btnlayout"));
         registerBtn = new QPushButton(verticalLayoutWidget);
@@ -122,6 +140,7 @@ public:
         username->setText(QCoreApplication::translate("registerDialog", "\347\224\250\346\210\267\345\220\215", nullptr));
         password->setText(QCoreApplication::translate("registerDialog", "\345\257\206\347\240\201    ", nullptr));
         passwordsure->setText(QCoreApplication::translate("registerDialog", "\347\241\256\350\256\244\345\257\206\347\240\201", nullptr));
+        inviteCodeLabel->setText(QCoreApplication::translate("registerDialog", "\347\256\241\347\220\206\345\221\230\351\202\200\350\257\267\347\240\201", nullptr));
         registerBtn->setText(QCoreApplication::translate("registerDialog", "\346\263\250\345\206\214", nullptr));
         backtologinBtn->setText(QCoreApplication::translate("registerDialog", "\350\277\224\345\233\236\347\231\273\345\275\225", nullptr));
     } // retranslateUi

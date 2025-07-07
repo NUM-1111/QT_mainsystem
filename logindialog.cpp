@@ -2,6 +2,8 @@
 #include "ui_logindialog.h"
 #include "registerdialog.h"
 #include <QDebug>
+#include "usermanager.h"
+#include <QCryptographicHash>
 
 loginDialog::loginDialog(QWidget *parent)
     : QDialog(parent)
@@ -122,29 +124,30 @@ bool loginDialog::performLogin()
     if (!validateInput()) {
         return false;
     }
-    
     QString username = ui->usernameinput->text().trimmed();
     QString password = ui->passwordinput->text();
-    
+
     qDebug() << "尝试登录用户:" << username;
-    
-    // 检查数据库连接
-    if (!m_dbManager.isConnected()) {
-        QMessageBox::critical(this, "系统错误", "数据库连接失败，请检查系统配置");
-        qDebug() << "数据库未连接";
+
+    // 查询用户
+    User user;
+    if (!UserManager::getUserByName(username, user)) {
+        QMessageBox::warning(this, "登录失败", "用户名或密码错误，请重试");
+        qDebug() << "用户" << username << "不存在";
+        ui->passwordinput->clear();
+        ui->passwordinput->setFocus();
         return false;
     }
-    
-    // 执行登录验证
-    if (m_dbManager.loginUser(username, password)) {
+
+    // 密码加密比对
+    QString hashedPassword = QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
+    if (user.password == hashedPassword) {
         QMessageBox::information(this, "登录成功", QString("欢迎回来，%1！").arg(username));
         qDebug() << "用户" << username << "登录成功";
         return true;
     } else {
         QMessageBox::warning(this, "登录失败", "用户名或密码错误，请重试");
-        qDebug() << "用户" << username << "登录失败";
-        
-        // 清空密码输入框，保持用户名
+        qDebug() << "用户" << username << "密码错误";
         ui->passwordinput->clear();
         ui->passwordinput->setFocus();
         return false;

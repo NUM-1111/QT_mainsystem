@@ -2,6 +2,8 @@
 #include "ui_registerdialog.h"
 #include <QDebug>
 #include <QRegExp>
+#include "usermanager.h"
+#include <QCryptographicHash>
 
 registerDialog::registerDialog(QWidget *parent)
     : QDialog(parent)
@@ -151,40 +153,27 @@ bool registerDialog::validateInput()
     return true;
 }
 
+// 修改 isUsernameAvailable，使用 UserManager 判断用户名是否存在
 bool registerDialog::isUsernameAvailable(const QString &username)
 {
-    // 检查数据库连接
-    if (!m_dbManager.isConnected()) {
-        // 不在这里显示错误消息，让调用者处理
-        return false;
-    }
-    
-    // 检查用户名是否已存在
-    return !m_dbManager.isUserExists(username);
+    User user;
+    return !UserManager::getUserByName(username, user);
 }
 
+// 修改 performRegistration，支持邀请码、密码加密、用UserManager注册
 bool registerDialog::performRegistration()
 {
     qDebug() << "=== 开始执行注册流程 ===";
-    
-    // 验证输入
     if (!validateInput()) {
         qDebug() << "输入验证失败";
         return false;
     }
-    
     QString username = ui->usernameinput->text().trimmed();
     QString password = ui->passwordinput->text();
-    
+    QString inviteCode = ui->inviteCodeInput->text().trimmed();
+
     qDebug() << "尝试注册用户:" << username;
-    
-    // 检查数据库连接
-    if (!m_dbManager.isConnected()) {
-        QMessageBox::critical(this, "系统错误", "数据库连接失败，请检查系统配置");
-        qDebug() << "数据库未连接";
-        return false;
-    }
-    
+
     // 检查用户名是否可用
     qDebug() << "检查用户名是否可用...";
     if (!isUsernameAvailable(username)) {
@@ -195,20 +184,31 @@ bool registerDialog::performRegistration()
         return false;
     }
     qDebug() << "用户名可用";
-    
-    // 执行注册
-    qDebug() << "开始执行数据库注册...";
-    bool registerResult = m_dbManager.registerUser(username, password);
-    
+
+    // 判断邀请码，决定用户组
+    int group = -1;
+    if (!inviteCode.isEmpty() && inviteCode == "J15System") {
+        group = 0; // 管理员
+    }
+    // 其余情况为普通用户 group = -1
+
+    // 密码加密（SHA256）
+    QString hashedPassword = QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
+
+    // 构造 User 结构体
+    User user;
+    user.name = username;
+    user.password = hashedPassword;
+    user.group = group;
+    // 其余字段默认
+
+    // 注册用户
+    bool registerResult = UserManager::addUser(user);
     if (registerResult) {
-        qDebug() << "数据库注册成功";
         QMessageBox::information(this, "注册成功", QString("用户 %1 注册成功！\n请返回登录界面进行登录。").arg(username));
-        qDebug() << "用户" << username << "注册成功，准备返回true";
         return true;
     } else {
-        qDebug() << "数据库注册失败";
         QMessageBox::critical(this, "注册失败", "注册过程中发生错误，请重试");
-        qDebug() << "用户" << username << "注册失败";
         return false;
     }
 }

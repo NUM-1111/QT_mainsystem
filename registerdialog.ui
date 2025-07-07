@@ -19,7 +19,7 @@
      <x>80</x>
      <y>60</y>
      <width>221</width>
-     <height>161</height>
+     <height>191</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="registerwidget">
@@ -62,6 +62,20 @@
       </item>
       <item>
        <widget class="QLineEdit" name="passwordsureinput"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="inviteCodeLayout">
+      <item>
+       <widget class="QLabel" name="inviteCodeLabel">
+        <property name="text">
+         <string>管理员邀请码</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="inviteCodeInput"/>
       </item>
      </layout>
     </item>
