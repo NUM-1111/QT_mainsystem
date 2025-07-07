@@ -11,21 +11,30 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    adminpanel.cpp \
     databasemanager.cpp \
+    groupmanager.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
     registerdialog.cpp \
-    subsystemclient.cpp
+    subsystemclient.cpp \
+    usermanager.cpp
 
 HEADERS += \
+    adminpanel.h \
+    config.h \
     databasemanager.h \
+    groupmanager.h \
     logindialog.h \
     mainwindow.h \
     registerdialog.h \
-    subsystemclient.h
+    struct.h \
+    subsystemclient.h \
+    usermanager.h
 
 FORMS += \
+    adminpanel.ui \
     logindialog.ui \
     mainwindow.ui \
     registerdialog.ui
