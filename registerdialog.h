@@ -17,6 +17,8 @@ public:
     explicit registerDialog(QWidget *parent = nullptr);
     ~registerDialog();
 
+    QString getRegisteredUserName() const;
+
 private slots:
     /**
      * @brief 注册按钮点击事件
@@ -66,6 +68,7 @@ private:
 private:
     Ui::registerDialog *ui;
     DatabaseManager& m_dbManager;  ///< 数据库管理器引用
+    QString m_registeredUserName;  ///注册成功的用户名
 };
 
 #endif // REGISTERDIALOG_H

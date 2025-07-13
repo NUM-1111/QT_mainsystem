@@ -45,6 +45,7 @@ private:
     void setupSubsystemClient();
     void updateSubsystem1Button();
     void showStatusMessage(const QString &message);
+    void applyPermissionControl();
 
 private:
     Ui::MainWindow *ui;

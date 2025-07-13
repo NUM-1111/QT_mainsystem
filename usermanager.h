@@ -18,6 +18,9 @@ public:
     static bool getUserById(int user_id, User& user);
     // 根据用户名查询单个用户
     static bool getUserByName(const QString& username, User& user);
+    static User currentUser;
+    static void setCurrentUser(const User& user) { currentUser = user; }
+    static User getCurrentUser() { return currentUser; }
 };
 
 #endif // USERMANAGER_H

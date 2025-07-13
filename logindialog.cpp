@@ -142,6 +142,7 @@ bool loginDialog::performLogin()
     // 密码加密比对
     QString hashedPassword = QString(QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha256).toHex());
     if (user.password == hashedPassword) {
+        UserManager::setCurrentUser(user);
         QMessageBox::information(this, "登录成功", QString("欢迎回来，%1！").arg(username));
         qDebug() << "用户" << username << "登录成功";
         return true;

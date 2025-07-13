@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "usermanagerdialog.h"
+#include "groupmanagerdialog.h"
+#include "usermanager.h"
 #include "groupmanager.h"
 #include <QMessageBox>
 #include <QDebug>
@@ -27,6 +29,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     // 更新按钮状态
     updateSubsystem1Button();
+
+    // 应用权限控制
+    applyPermissionControl();
 }
 
 MainWindow::~MainWindow()
@@ -72,8 +77,31 @@ void MainWindow::setupSubsystemClient()
     connect(m_connectionTimer, &QTimer::timeout, this, &MainWindow::onConnectionTimer);
 }
 
+void MainWindow::applyPermissionControl()
+{
+    User user = UserManager::getCurrentUser();
+    // 计算最终权限
+    user = PermissionManager::getInstance().calculateUserFinalRights(user);
+    // 分系统按钮
+    ui->btnSubsystem1->setEnabled(user.canAccessSubsystem(0));
+    ui->btnSubsystem2->setEnabled(user.canAccessSubsystem(1));
+    ui->btnSubsystem3->setEnabled(user.canAccessSubsystem(2));
+    ui->btnSubsystem4->setEnabled(user.canAccessSubsystem(3));
+    ui->btnSubsystem5->setEnabled(user.canAccessSubsystem(4));
+    // 管理员功能
+    bool isAdmin = (user.group == 0);
+    ui->btnViewUsers->setEnabled(isAdmin);
+    ui->btnViewGroups->setEnabled(isAdmin);
+}
+
 void MainWindow::on_btnSubsystem1_clicked()
 {
+    User user = UserManager::getCurrentUser();
+    user = PermissionManager::getInstance().calculateUserFinalRights(user);
+    if (!user.canAccessSubsystem(0)) {
+        QMessageBox::warning(this, "权限不足", "您没有访问分系统1的权限");
+        return;
+    }
     if (!m_isSubsystem1Running) {
         // 启动子系统1
         showStatusMessage("正在启动子系统1...");
@@ -108,26 +136,55 @@ void MainWindow::on_btnSubsystem1_clicked()
 
 void MainWindow::on_btnSubsystem2_clicked()
 {
+    User user = UserManager::getCurrentUser();
+    user = PermissionManager::getInstance().calculateUserFinalRights(user);
+    if (!user.canAccessSubsystem(1)) {
+        QMessageBox::warning(this, "权限不足", "您没有访问分系统2的权限");
+        return;
+    }
     QMessageBox::information(this, "提示", "子系统2功能待实现");
 }
 
 void MainWindow::on_btnSubsystem3_clicked()
 {
+    User user = UserManager::getCurrentUser();
+    user = PermissionManager::getInstance().calculateUserFinalRights(user);
+    if (!user.canAccessSubsystem(2)) {
+        QMessageBox::warning(this, "权限不足", "您没有访问分系统3的权限");
+        return;
+    }
     QMessageBox::information(this, "提示", "子系统3功能待实现");
 }
 
 void MainWindow::on_btnSubsystem4_clicked()
 {
+    User user = UserManager::getCurrentUser();
+    user = PermissionManager::getInstance().calculateUserFinalRights(user);
+    if (!user.canAccessSubsystem(3)) {
+        QMessageBox::warning(this, "权限不足", "您没有访问分系统4的权限");
+        return;
+    }
     QMessageBox::information(this, "提示", "子系统4功能待实现");
 }
 
 void MainWindow::on_btnSubsystem5_clicked()
 {
+    User user = UserManager::getCurrentUser();
+    user = PermissionManager::getInstance().calculateUserFinalRights(user);
+    if (!user.canAccessSubsystem(4)) {
+        QMessageBox::warning(this, "权限不足", "您没有访问分系统5的权限");
+        return;
+    }
     QMessageBox::information(this, "提示", "子系统5功能待实现");
 }
 
 void MainWindow::on_btnViewUsers_clicked()
 {
+    User user = UserManager::getCurrentUser();
+    if (user.group != 0) {
+        QMessageBox::warning(this, "权限不足", "只有管理员可以访问用户管理功能");
+        return;
+    }
     // 创建并显示用户管理对话框
     UserManagerDialog *userDialog = new UserManagerDialog(this);
     userDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -138,7 +195,15 @@ void MainWindow::on_btnViewUsers_clicked()
 
 void MainWindow::on_btnViewGroups_clicked()
 {
-    QMessageBox::information(this, "提示", "权限组管理功能待实现");
+    User user = UserManager::getCurrentUser();
+    if (user.group != 0) {
+        QMessageBox::warning(this, "权限不足", "只有管理员可以访问权限组管理功能");
+        return;
+    }
+    GroupManagerDialog *groupDialog = new GroupManagerDialog(this);
+    groupDialog->setAttribute(Qt::WA_DeleteOnClose);
+    groupDialog->show();
+    showStatusMessage("权限组管理界面已打开");
 }
 
 void MainWindow::onSubsystemStarted()

@@ -42,6 +42,11 @@ registerDialog::~registerDialog()
     delete ui;
 }
 
+QString registerDialog::getRegisteredUserName() const
+{
+    return m_registeredUserName; // 假设你有一个成员变量保存注册成功的用户名
+}
+
 void registerDialog::handleRegisterBtnClicked()
 {
     qDebug() << "=== 注册按钮被点击 ===";
@@ -205,6 +210,7 @@ bool registerDialog::performRegistration()
     // 注册用户
     bool registerResult = UserManager::addUser(user);
     if (registerResult) {
+        m_registeredUserName = username;
         QMessageBox::information(this, "注册成功", QString("用户 %1 注册成功！\n请返回登录界面进行登录。").arg(username));
         return true;
     } else {

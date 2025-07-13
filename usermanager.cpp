@@ -4,6 +4,8 @@
 #include <QVariant>
 #include <QDebug>
 
+User UserManager::currentUser;
+
 // 添加用户
 bool UserManager::addUser(const User& user) {
     QSqlDatabase db = DatabaseManager::getInstance().getDatabase();

@@ -12,6 +12,7 @@
 #include "usermanager.h"
 #include "groupmanager.h"
 #include "permissionmanager.h"
+#include "registerdialog.h"
 
 namespace Ui {
 class UserManagerDialog;

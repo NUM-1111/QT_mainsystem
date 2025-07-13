@@ -122,7 +122,21 @@ void UserManagerDialog::on_btnRefresh_clicked()
 
 void UserManagerDialog::on_btnAddUser_clicked()
 {
-    QMessageBox::information(this, "提示", "添加用户功能需要实现注册对话框");
+    // 弹出注册对话框
+    registerDialog regDialog(this);
+    if (regDialog.exec() == QDialog::Accepted) {
+        // 注册成功，刷新用户列表
+        loadUserList();
+        // 选中新添加的用户（假设用户名唯一）
+        QString newUserName = regDialog.getRegisteredUserName();
+        for (int row = 0; row < ui->tableUsers->rowCount(); ++row) {
+            if (ui->tableUsers->item(row, 1)->text() == newUserName) {
+                ui->tableUsers->selectRow(row);
+                break;
+            }
+        }
+        showStatusMessage(QString("用户 '%1' 注册成功").arg(newUserName));
+    }
 }
 
 void UserManagerDialog::on_btnDeleteUser_clicked()
