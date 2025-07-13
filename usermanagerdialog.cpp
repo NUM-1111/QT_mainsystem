@@ -14,6 +14,13 @@ UserManagerDialog::UserManagerDialog(QWidget *parent)
     // 设置窗口标题
     setWindowTitle("用户权限管理");
     
+    // 强制设置comboGroup条目顺序
+    ui->comboGroup->clear();
+    ui->comboGroup->addItem("无权限组");   // -1
+    ui->comboGroup->addItem("管理员");     // 0
+    ui->comboGroup->addItem("权限组1 (分系统1-3)"); // 1
+    ui->comboGroup->addItem("权限组2 (分系统4-5)"); // 2
+    
     // 初始化界面
     setupUserTable();
     
@@ -32,6 +39,27 @@ UserManagerDialog::~UserManagerDialog()
     delete ui;
 }
 
+// comboBox index -> group
+int UserManagerDialog::comboIndexToGroup(int index) {
+    switch (index) {
+        case 0: return -1; // 无权限组
+        case 1: return 0;  // 管理员
+        case 2: return 1;  // 权限组1
+        case 3: return 2;  // 权限组2
+        default: return -1;
+    }
+}
+// group -> comboBox index
+int UserManagerDialog::groupToComboIndex(int group) {
+    switch (group) {
+        case -1: return 0;
+        case 0:  return 1;
+        case 1:  return 2;
+        case 2:  return 3;
+        default: return 0;
+    }
+}
+
 void UserManagerDialog::setupUserTable()
 {
     // 设置表格列
@@ -42,6 +70,7 @@ void UserManagerDialog::setupUserTable()
     ui->tableUsers->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableUsers->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableUsers->setAlternatingRowColors(true);
+    ui->tableUsers->setEditTriggers(QAbstractItemView::NoEditTriggers);
     
     // 设置列宽
     ui->tableUsers->horizontalHeader()->setStretchLastSection(true);
@@ -63,6 +92,7 @@ void UserManagerDialog::loadUserList()
     
     // 填充表格
     for (const User& user : m_users) {
+        qDebug() << "User:" << user.id << user.name << "group=" << user.group;
         int row = ui->tableUsers->rowCount();
         ui->tableUsers->insertRow(row);
         
@@ -141,7 +171,7 @@ void UserManagerDialog::loadUserPermissions(const User& user)
     ui->editUsername->setText(user.name);
     
     // 设置权限组
-    int groupIndex = user.group + 1; // -1->0, 0->1, 1->2, 2->3
+    int groupIndex = groupToComboIndex(user.group);
     if (groupIndex >= 0 && groupIndex < ui->comboGroup->count()) {
         ui->comboGroup->setCurrentIndex(groupIndex);
     }
@@ -226,7 +256,7 @@ void UserManagerDialog::updatePermissionPreview()
     
     // 获取当前权限组
     int groupIndex = ui->comboGroup->currentIndex();
-    int groupId = groupIndex - 1; // 0->-1, 1->0, 2->1, 3->2
+    int groupId = comboIndexToGroup(groupIndex); // 0->-1, 1->0, 2->1, 3->2
     
     // 获取个人权限限制
     RightToSystem restrictions = getPermissionRestrictionsFromUI();
@@ -269,7 +299,7 @@ void UserManagerDialog::on_btnSave_clicked()
     
     // 获取当前设置
     int groupIndex = ui->comboGroup->currentIndex();
-    int groupId = groupIndex - 1;
+    int groupId = comboIndexToGroup(groupIndex);
     RightToSystem restrictions = getPermissionRestrictionsFromUI();
     
     // 更新用户信息

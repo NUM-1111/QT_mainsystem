@@ -68,6 +68,9 @@ private:
     QVector<Group> m_groups;         // 权限组列表
     User m_currentUser;              // 当前选中的用户
     bool m_isLoading;                // 是否正在加载数据（防止信号循环）
+    // comboBox index <-> group字段 映射
+    int comboIndexToGroup(int index);
+    int groupToComboIndex(int group);
 };
 
 #endif // USERMANAGERDIALOG_H
