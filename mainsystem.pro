@@ -11,33 +11,38 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    adminpanel.cpp \
     databasemanager.cpp \
     groupmanager.cpp \
+    groupmanagerdialog.cpp \
     logindialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    permissionmanager.cpp \
     registerdialog.cpp \
     subsystemclient.cpp \
-    usermanager.cpp
+    usermanager.cpp \
+    usermanagerdialog.cpp
 
 HEADERS += \
-    adminpanel.h \
     config.h \
     databasemanager.h \
     groupmanager.h \
+    groupmanagerdialog.h \
     logindialog.h \
     mainwindow.h \
+    permissionmanager.h \
     registerdialog.h \
     struct.h \
     subsystemclient.h \
-    usermanager.h
+    usermanager.h \
+    usermanagerdialog.h
 
 FORMS += \
-    adminpanel.ui \
+    groupmanagerdialog.ui \
     logindialog.ui \
     mainwindow.ui \
-    registerdialog.ui
+    registerdialog.ui \
+    usermanagerdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

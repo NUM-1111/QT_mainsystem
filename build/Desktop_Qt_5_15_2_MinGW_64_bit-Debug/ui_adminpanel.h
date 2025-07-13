@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -18,12 +19,16 @@ QT_BEGIN_NAMESPACE
 class Ui_adminpanel
 {
 public:
+    QPushButton *pushButton;
 
     void setupUi(QWidget *adminpanel)
     {
         if (adminpanel->objectName().isEmpty())
             adminpanel->setObjectName(QString::fromUtf8("adminpanel"));
         adminpanel->resize(400, 300);
+        pushButton = new QPushButton(adminpanel);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setGeometry(QRect(150, 150, 80, 18));
 
         retranslateUi(adminpanel);
 
@@ -33,6 +38,7 @@ public:
     void retranslateUi(QWidget *adminpanel)
     {
         adminpanel->setWindowTitle(QCoreApplication::translate("adminpanel", "Form", nullptr));
+        pushButton->setText(QCoreApplication::translate("adminpanel", "PushButton", nullptr));
     } // retranslateUi
 
 };

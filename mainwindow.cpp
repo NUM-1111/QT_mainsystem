@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "adminpanel.h"
+#include "usermanagerdialog.h"
 #include "groupmanager.h"
 #include <QMessageBox>
 #include <QDebug>
@@ -15,16 +15,16 @@ MainWindow::MainWindow(QWidget *parent)
     , m_isSubsystem1Connected(false)
 {
     ui->setupUi(this);
-    
+
     // 设置窗口标题
     setWindowTitle("主系统 - 子系统管理");
-    
+
     // 初始化子系统客户端
     setupSubsystemClient();
-    
+
     // 初始化状态栏
     statusBar()->showMessage("就绪");
-    
+
     // 更新按钮状态
     updateSubsystem1Button();
 }
@@ -36,12 +36,12 @@ MainWindow::~MainWindow()
         m_connectionTimer->stop();
         delete m_connectionTimer;
     }
-    
+
     // 清理子系统客户端
     if (m_subsystemClient) {
         delete m_subsystemClient;
     }
-    
+
     delete ui;
 }
 
@@ -49,23 +49,23 @@ void MainWindow::setupSubsystemClient()
 {
     // 创建子系统客户端
     m_subsystemClient = new SubsystemClient(this);
-    
+
     // 连接信号到槽函数
-    connect(m_subsystemClient, &SubsystemClient::subsystemStarted, 
+    connect(m_subsystemClient, &SubsystemClient::subsystemStarted,
             this, &MainWindow::onSubsystemStarted);
-    connect(m_subsystemClient, &SubsystemClient::subsystemStopped, 
+    connect(m_subsystemClient, &SubsystemClient::subsystemStopped,
             this, &MainWindow::onSubsystemStopped);
-    connect(m_subsystemClient, &SubsystemClient::subsystemError, 
+    connect(m_subsystemClient, &SubsystemClient::subsystemError,
             this, &MainWindow::onSubsystemError);
-    connect(m_subsystemClient, &SubsystemClient::connected, 
+    connect(m_subsystemClient, &SubsystemClient::connected,
             this, &MainWindow::onConnected);
-    connect(m_subsystemClient, &SubsystemClient::disconnected, 
+    connect(m_subsystemClient, &SubsystemClient::disconnected,
             this, &MainWindow::onDisconnected);
-    connect(m_subsystemClient, &SubsystemClient::connectionError, 
+    connect(m_subsystemClient, &SubsystemClient::connectionError,
             this, &MainWindow::onConnectionError);
-    connect(m_subsystemClient, &SubsystemClient::responseReceived, 
+    connect(m_subsystemClient, &SubsystemClient::responseReceived,
             this, &MainWindow::onResponseReceived);
-    
+
     // 创建连接重试定时器
     m_connectionTimer = new QTimer(this);
     m_connectionTimer->setSingleShot(true);
@@ -77,7 +77,7 @@ void MainWindow::on_btnSubsystem1_clicked()
     if (!m_isSubsystem1Running) {
         // 启动子系统1
         showStatusMessage("正在启动子系统1...");
-        
+
         // 启动子系统进程
         if (m_subsystemClient->startSubsystem()) {
             qDebug() << "子系统1启动命令已发送";
@@ -128,7 +128,12 @@ void MainWindow::on_btnSubsystem5_clicked()
 
 void MainWindow::on_btnViewUsers_clicked()
 {
-    QMessageBox::information(this, "提示", "用户管理功能待实现");
+    // 创建并显示用户管理对话框
+    UserManagerDialog *userDialog = new UserManagerDialog(this);
+    userDialog->setAttribute(Qt::WA_DeleteOnClose);
+    userDialog->show();
+    
+    showStatusMessage("用户管理界面已打开");
 }
 
 void MainWindow::on_btnViewGroups_clicked()
@@ -141,7 +146,7 @@ void MainWindow::onSubsystemStarted()
     m_isSubsystem1Running = true;
     showStatusMessage("子系统1已启动，正在连接...");
     updateSubsystem1Button();
-    
+
     // 延迟2秒后尝试连接
     m_connectionTimer->start(2000);
 }
@@ -160,7 +165,7 @@ void MainWindow::onSubsystemError(const QString &error)
     m_isSubsystem1Connected = false;
     showStatusMessage("子系统1错误: " + error);
     updateSubsystem1Button();
-    
+
     QMessageBox::critical(this, "子系统错误", "子系统1发生错误:\n" + error);
 }
 
@@ -183,14 +188,14 @@ void MainWindow::onConnectionError(const QString &error)
     m_isSubsystem1Connected = false;
     showStatusMessage("连接错误: " + error);
     updateSubsystem1Button();
-    
+
     QMessageBox::warning(this, "连接错误", "连接子系统1失败:\n" + error);
 }
 
 void MainWindow::onResponseReceived(const QString &response)
 {
     showStatusMessage("收到响应: " + response);
-    
+
     // 根据响应内容处理
     if (response.contains("UI_SHOWN", Qt::CaseInsensitive)) {
         QMessageBox::information(this, "成功", "子系统1界面已显示");
@@ -211,7 +216,7 @@ void MainWindow::updateSubsystem1Button()
 {
     QString buttonText;
     QString statusText;
-    
+
     if (!m_isSubsystem1Running) {
         buttonText = "启动子系统1";
         statusText = "未运行";
@@ -222,7 +227,7 @@ void MainWindow::updateSubsystem1Button()
         buttonText = "显示子系统1界面";
         statusText = "已连接";
     }
-    
+
     ui->btnSubsystem1->setText(buttonText);
     showStatusMessage("子系统1状态: " + statusText);
 }
