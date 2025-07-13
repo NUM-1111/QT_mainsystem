@@ -2,9 +2,7 @@
 name: "代码教学注释器"
 description: "为选中代码添加逐行中文注释，并讲解其用途、关键概念"
 globs:
-  - "**/*.cpp"
-  - "**/*.py"
-  - "**/*.go"
+  - "**/*"
 alwaysApply: false
 prompt: |
   我正在学习 Qt 编程，并希望理解以下代码的作用。
