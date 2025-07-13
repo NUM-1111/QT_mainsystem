@@ -1,0 +1,21 @@
+---
+name: "QProcess 子系统启动器"
+description: "生成主系统通过 QProcess 启动子系统并与其通信的代码"
+globs:
+  - "**/*.cpp"
+  - "**/*.md"
+alwaysApply: false
+prompt: |
+  主系统使用 QProcess 启动分系统程序，分系统初始不显示窗口。
+
+  主系统随后通过 QTcpSocket 发送 "/show ui" 指令，子系统显示窗口。
+
+  请生成对应的代码示例，要求：
+  - 使用 QProcess 启动一个 .exe 子程序
+  - 使用 QTcpSocket 发送请求
+  - 分系统使用 QTcpServer 接收请求并显示窗口
+  - 所有代码附带详细中文注释
+
+  {{selection}}
+
+---

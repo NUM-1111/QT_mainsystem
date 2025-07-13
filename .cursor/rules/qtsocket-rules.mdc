@@ -1,0 +1,21 @@
+---
+name: "QtSocket 教程式模板生成器"
+description: "生成 QTcpSocket/Server 通信框架代码并逐步讲解每一部分"
+globs:
+  - "**/*.cpp"
+  - "**/*.h"
+  - "**/*.md"
+alwaysApply: false
+prompt: |
+  我正在使用 Qt 开发主系统与子系统之间的通信模块，使用 QTcpSocket 和 QTcpServer。
+
+  请生成一个通信框架模板，要求如下：
+  1. 主系统作为客户端，子系统作为服务端
+  2. 主系统通过 socket 发送字符串，如 "/show ui"
+  3. 子系统接收到后响应显示前端窗口
+  4. 每一部分代码必须有详细注释，适合初学者阅读
+  5. 最后请解释：如何维护 <用户id-窗口实例> 的映射结构，并只允许一个用户窗口实例存在
+
+  {{selection}}
+
+---
