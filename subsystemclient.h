@@ -9,19 +9,22 @@
 
 class SubsystemClient : public QObject
 {
-     Q_OBJECT
+    Q_OBJECT
 
 public:
-    explicit SubsystemClient(QObject *parent = nullptr);
+    explicit SubsystemClient(const QString &host,
+                             quint16 port,
+                             const QString &path,
+                             QObject *parent = nullptr);
     ~SubsystemClient();
 
     // 进程管理
-    bool startSubsystem(const QString &subsystemPath = "D:/Tools/Qt/projects/system1/build/Desktop_Qt_5_15_2_MinGW_64_bit-Debug/debug/system1.exe");
+    bool startSubsystem();
     void stopSubsystem();
     bool isSubsystemRunning() const;
 
     // 网络通信
-    bool connectToSubsystem(const QString &host = "localhost", quint16 port = 8080);
+    bool connectToSubsystem(const QString &host, quint16 port);
     void disconnectFromSubsystem();
     bool isConnected() const;
 
@@ -49,21 +52,25 @@ private slots:
     void onProcessStarted();
     void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void onProcessError(QProcess::ProcessError error);
-    
+
     // 网络相关槽函数
     void onSocketConnected();
     void onSocketDisconnected();
     void onSocketError(QAbstractSocket::SocketError error);
     void onSocketReadyRead();
 
+    void onProcessStdOutput();
+    void onProcessStdError();z
+
 private:
-    QProcess *m_process;        // 进程管理
-    QTcpSocket *m_socket;       // 网络通信
-    bool m_isConnected;         // 连接状态
-    bool m_isSubsystemRunning;  // 子系统运行状态
-    QString m_host;             // 主机地址
-    quint16 m_port;             // 端口号
-    QMap<QString, QWidget*> m_userWindows; // 用户窗口映射
+    QProcess *m_process;                    // 进程管理
+    QTcpSocket *m_socket;                   // 网络通信
+    bool m_isConnected;                     // 连接状态
+    bool m_isSubsystemRunning;              // 子系统运行状态
+    QString m_host;                         // 主机地址
+    quint16 m_port;                         // 端口号
+    QMap<QString, QWidget *> m_userWindows; // 用户窗口映射
+    QString m_subsystemPath;
 };
 
 #endif // SUBSYSTEMCLIENT_H

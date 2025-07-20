@@ -20,10 +20,12 @@ SOURCES += \
     permissionmanager.cpp \
     registerdialog.cpp \
     subsystemclient.cpp \
+    subsystemmanager.cpp \
     usermanager.cpp \
     usermanagerdialog.cpp
 
 HEADERS += \
+    SubsystemInfo.h \
     config.h \
     databasemanager.h \
     groupmanager.h \
@@ -34,6 +36,7 @@ HEADERS += \
     registerdialog.h \
     struct.h \
     subsystemclient.h \
+    subsystemmanager.h \
     usermanager.h \
     usermanagerdialog.h
 

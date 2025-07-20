@@ -7,6 +7,7 @@ release/mainwindow.o
 release/permissionmanager.o
 release/registerdialog.o
 release/subsystemclient.o
+release/subsystemmanager.o
 release/usermanager.o
 release/usermanagerdialog.o
 release/moc_groupmanagerdialog.o
@@ -15,4 +16,5 @@ release/moc_mainwindow.o
 release/moc_permissionmanager.o
 release/moc_registerdialog.o
 release/moc_subsystemclient.o
+release/moc_subsystemmanager.o
 release/moc_usermanagerdialog.o

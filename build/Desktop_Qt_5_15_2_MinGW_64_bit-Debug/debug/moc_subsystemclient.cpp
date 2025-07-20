@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SubsystemClient_t {
-    QByteArrayData data[23];
-    char stringdata0[351];
+    QByteArrayData data[25];
+    char stringdata0[388];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -54,7 +54,9 @@ QT_MOC_LITERAL(18, 251, 17), // "onSocketConnected"
 QT_MOC_LITERAL(19, 269, 20), // "onSocketDisconnected"
 QT_MOC_LITERAL(20, 290, 13), // "onSocketError"
 QT_MOC_LITERAL(21, 304, 28), // "QAbstractSocket::SocketError"
-QT_MOC_LITERAL(22, 333, 17) // "onSocketReadyRead"
+QT_MOC_LITERAL(22, 333, 17), // "onSocketReadyRead"
+QT_MOC_LITERAL(23, 351, 18), // "onProcessStdOutput"
+QT_MOC_LITERAL(24, 370, 17) // "onProcessStdError"
 
     },
     "SubsystemClient\0subsystemStarted\0\0"
@@ -66,7 +68,8 @@ QT_MOC_LITERAL(22, 333, 17) // "onSocketReadyRead"
     "onProcessError\0QProcess::ProcessError\0"
     "onSocketConnected\0onSocketDisconnected\0"
     "onSocketError\0QAbstractSocket::SocketError\0"
-    "onSocketReadyRead"
+    "onSocketReadyRead\0onProcessStdOutput\0"
+    "onProcessStdError"
 };
 #undef QT_MOC_LITERAL
 
@@ -76,7 +79,7 @@ static const uint qt_meta_data_SubsystemClient[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      16,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -84,22 +87,24 @@ static const uint qt_meta_data_SubsystemClient[] = {
        7,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,   84,    2, 0x06 /* Public */,
-       3,    0,   85,    2, 0x06 /* Public */,
-       4,    1,   86,    2, 0x06 /* Public */,
-       6,    0,   89,    2, 0x06 /* Public */,
-       7,    0,   90,    2, 0x06 /* Public */,
-       8,    1,   91,    2, 0x06 /* Public */,
-       9,    1,   94,    2, 0x06 /* Public */,
+       1,    0,   94,    2, 0x06 /* Public */,
+       3,    0,   95,    2, 0x06 /* Public */,
+       4,    1,   96,    2, 0x06 /* Public */,
+       6,    0,   99,    2, 0x06 /* Public */,
+       7,    0,  100,    2, 0x06 /* Public */,
+       8,    1,  101,    2, 0x06 /* Public */,
+       9,    1,  104,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      11,    0,   97,    2, 0x08 /* Private */,
-      12,    2,   98,    2, 0x08 /* Private */,
-      16,    1,  103,    2, 0x08 /* Private */,
-      18,    0,  106,    2, 0x08 /* Private */,
-      19,    0,  107,    2, 0x08 /* Private */,
-      20,    1,  108,    2, 0x08 /* Private */,
-      22,    0,  111,    2, 0x08 /* Private */,
+      11,    0,  107,    2, 0x08 /* Private */,
+      12,    2,  108,    2, 0x08 /* Private */,
+      16,    1,  113,    2, 0x08 /* Private */,
+      18,    0,  116,    2, 0x08 /* Private */,
+      19,    0,  117,    2, 0x08 /* Private */,
+      20,    1,  118,    2, 0x08 /* Private */,
+      22,    0,  121,    2, 0x08 /* Private */,
+      23,    0,  122,    2, 0x08 /* Private */,
+      24,    0,  123,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
@@ -117,6 +122,8 @@ static const uint qt_meta_data_SubsystemClient[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 21,    5,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -142,6 +149,8 @@ void SubsystemClient::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int 
         case 11: _t->onSocketDisconnected(); break;
         case 12: _t->onSocketError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
         case 13: _t->onSocketReadyRead(); break;
+        case 14: _t->onProcessStdOutput(); break;
+        case 15: _t->onProcessStdError(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -238,13 +247,13 @@ int SubsystemClient::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 16;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 16)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 16;
     }
     return _id;
 }

@@ -2,14 +2,17 @@
 #include <QDebug>
 #include <QWidget>
 
-SubsystemClient::SubsystemClient(QObject *parent)
-    : QObject(parent)
+SubsystemClient::SubsystemClient(const QString &host,
+                                 quint16 port,
+                                 const QString &path,
+                                 QObject *parent)
+    : QObject(parent),
+      m_host(host),
+      m_port(port),
+      m_subsystemPath(path),
+      m_isConnected(false),
+      m_isSubsystemRunning(false)
 {
-    m_process = nullptr;
-    m_socket = nullptr;
-    m_isConnected = false;
-    m_isSubsystemRunning = false;
-
     // 初始化网络通信
     m_socket = new QTcpSocket(this);
     connect(m_socket, &QTcpSocket::connected, this, &SubsystemClient::onSocketConnected);
@@ -23,14 +26,13 @@ SubsystemClient::SubsystemClient(QObject *parent)
     connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), 
             this, &SubsystemClient::onProcessFinished);
     connect(m_process, &QProcess::errorOccurred, this, &SubsystemClient::onProcessError);
+    // 构造函数里添加连接
+    connect(m_process, &QProcess::readyReadStandardOutput, this, &SubsystemClient::onProcessStdOutput);
+    connect(m_process, &QProcess::readyReadStandardError, this, &SubsystemClient::onProcessStdError);
 
-    // 初始化子系统运行状态
-    m_isSubsystemRunning = false;
+        // 初始化子系统运行状态
+        m_isSubsystemRunning = false;
     m_isConnected = false;
-
-    // 初始化主机名和端口号
-    m_host = "localhost";
-    m_port = 8080;
 
     // 初始化用户窗口映射
     m_userWindows.clear();
@@ -60,16 +62,16 @@ SubsystemClient::~SubsystemClient()
     }
 }
 
-bool SubsystemClient::startSubsystem(const QString &subsystemPath)
+bool SubsystemClient::startSubsystem()
 {
     if (m_isSubsystemRunning)
     {
         qWarning() << "子系统已运行，无法重复启动";
         return false;
     }
-    
-    qDebug() << "正在启动子系统:" << subsystemPath;
-    m_process->start(subsystemPath);
+
+    qDebug() << "正在启动子系统:" << m_subsystemPath;
+    m_process->start(m_subsystemPath);
     return true;
 }
 
@@ -248,4 +250,17 @@ void SubsystemClient::onSocketReadyRead()
         qDebug() << "收到子系统响应:" << response;
         emit responseReceived(response);
     }
+}
+
+// 添加槽函数
+void SubsystemClient::onProcessStdOutput()
+{
+    QByteArray data = m_process->readAllStandardOutput();
+    qDebug() << "[子系统stdout]" << QString::fromUtf8(data).trimmed();
+}
+
+void SubsystemClient::onProcessStdError()
+{
+    QByteArray data = m_process->readAllStandardError();
+    qWarning() << "[子系统stderr]" << QString::fromUtf8(data).trimmed();
 }

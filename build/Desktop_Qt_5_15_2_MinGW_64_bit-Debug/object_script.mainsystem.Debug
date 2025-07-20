@@ -7,6 +7,7 @@ debug/mainwindow.o
 debug/permissionmanager.o
 debug/registerdialog.o
 debug/subsystemclient.o
+debug/subsystemmanager.o
 debug/usermanager.o
 debug/usermanagerdialog.o
 debug/moc_groupmanagerdialog.o
@@ -15,4 +16,5 @@ debug/moc_mainwindow.o
 debug/moc_permissionmanager.o
 debug/moc_registerdialog.o
 debug/moc_subsystemclient.o
+debug/moc_subsystemmanager.o
 debug/moc_usermanagerdialog.o
