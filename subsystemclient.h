@@ -30,6 +30,7 @@ public:
 
     // 命令发送
     bool sendShowUiCommand();
+    bool sendUserIdCommand(const QString &userId);
     bool sendStatusCommand();
     bool sendCommand(const QString &command);
 
@@ -60,7 +61,7 @@ private slots:
     void onSocketReadyRead();
 
     void onProcessStdOutput();
-    void onProcessStdError();z
+    void onProcessStdError();
 
 private:
     QProcess *m_process;                    // 进程管理

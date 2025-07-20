@@ -179,6 +179,18 @@ void MainWindow::on_btnSubsystem1_clicked()
                 QMessageBox::warning(this, "错误", "连接子系统1失败");
             }
         } else {
+            // 发送userid信息
+            showStatusMessage("正在发送用户ID信息...");
+            if (m_subsystemClient1->sendUserIdCommand(QString::number(user.id)))
+            {
+                qDebug() << "用户ID信息已发送" << user.id << "to subsystem1";
+            }
+            else
+            {
+                showStatusMessage("用户ID信息发送失败");
+                QMessageBox::warning(this, "错误", "发送用户ID信息失败");
+            }
+
             // 发送显示界面命令
             showStatusMessage("正在发送显示界面命令...");
             if (m_subsystemClient1->sendShowUiCommand()) {
@@ -239,6 +251,18 @@ void MainWindow::on_btnSubsystem2_clicked()
         }
         else
         {
+            // 发送userid信息
+            showStatusMessage("正在发送用户ID信息...");
+            if (m_subsystemClient2->sendUserIdCommand(QString::number(user.id))) // id要转换成QString类型
+            {
+                qDebug() << "用户ID信息已发送" << user.id << "to subsystem2";
+            }
+            else
+            {
+                showStatusMessage("用户ID信息发送失败");
+                QMessageBox::warning(this, "错误", "发送用户ID信息失败");
+            }
+
             // 发送显示界面命令
             showStatusMessage("正在发送显示界面命令...");
             if (m_subsystemClient2->sendShowUiCommand())

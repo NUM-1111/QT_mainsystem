@@ -26,7 +26,8 @@ SubsystemClient::SubsystemClient(const QString &host,
     connect(m_process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), 
             this, &SubsystemClient::onProcessFinished);
     connect(m_process, &QProcess::errorOccurred, this, &SubsystemClient::onProcessError);
-    // 构造函数里添加连接
+    // 监听子系统输出
+    m_process->setProcessChannelMode(QProcess::MergedChannels);
     connect(m_process, &QProcess::readyReadStandardOutput, this, &SubsystemClient::onProcessStdOutput);
     connect(m_process, &QProcess::readyReadStandardError, this, &SubsystemClient::onProcessStdError);
 
@@ -134,6 +135,11 @@ bool SubsystemClient::isConnected() const
 bool SubsystemClient::sendShowUiCommand()
 {
     return sendCommand("/show_ui");
+}
+
+bool SubsystemClient::sendUserIdCommand(const QString &userId)
+{
+    return sendCommand(userId);
 }
 
 bool SubsystemClient::sendStatusCommand()
